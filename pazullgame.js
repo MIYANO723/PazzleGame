@@ -49,18 +49,7 @@ game.onload = function(){
 		   }
 	   });
    };
-	//シーンの定期処理
-	game.tick = 16 * 120;
-	game.rootScene.addEventListener(Event.ENTER_FRAME,function(){
-		game.tick--;
-		if(game.tick> 0) {
-		//ブロックの生成
-		if((game.tick % 10) === 0) {
-			
-			
-		else if (game.tick === 0) {
-            //ゲームオーバー画面の表示
-            game.end(game.score, "あなたのスコアは" + game.score);
+  };
      //ゲーム開始
    game.start();
 };
