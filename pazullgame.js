@@ -6,9 +6,10 @@ window.onload = function(){
 	  game.score = 0;
 	  var label;
 	  var material;
-game.onload = function(){
-     var bg = new Sprite(320,320);
-     bg.backgroundColor = "#7F3F7F";
+    game.onload = function(){
+     //背景の生成
+     var bg = new Sprite(320, 320);
+     bg.backgroundColor = "#87CEEB";
      var image = new Surface(320,320);
      for (var i = 0;i<320; i += 16) {
         image.draw(game.assets["fire.png"], 7 * 16, 0, 16, 16, i, 320 - 16, 16, 16);
@@ -35,7 +36,7 @@ game.onload = function(){
 	       material.x = 3;
 	       material.scaleX = -53;
 	   	}
-	       //右
+	    //右
 	   else if (game.input.right){
 	       material.x += 3;
 	       material.scaleX = 53;
@@ -45,11 +46,14 @@ game.onload = function(){
 		   if (!game.input.left && !game.input.right) {
 		        material.frame = material.anim[0];
 		   } else {
-		       material.frame = material.anim[bear.tick % 4];
+		       material.frame = material.anim[material.tick % 4];
 		   }
 	   });
+  
    };
   };
      //ゲーム開始
    game.start();
 };
+
+}
