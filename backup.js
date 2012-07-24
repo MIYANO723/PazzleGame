@@ -6,7 +6,17 @@ window.onload = function(){
 	  game.score = 0;
 	  var label;
 	  var material;
-    game.onload = function(){
+	  game.onload = function(){
+	   label(text)
+	   
+	   //ゲームシステム文のグループ化
+	   var gamesystem = new Group();
+	   gamesystem.addChild();
+	   gamesystem.addChild();
+	   //操作コンソールグループ化
+     var gamecontrol = new Group();
+     gamecontrol.addChild();
+     gamecontrol.addChild();
      //背景の生成
      var bg = new Sprite(320, 320);
      bg.backgroundColor = "#87CEEB";
