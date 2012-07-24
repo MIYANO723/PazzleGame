@@ -36,7 +36,7 @@ window.onload = function(){
    pad.x   = 220;
    pad.y   = 220;
    game.rootScene.addChild(pad);
-   //ブロックの生成
+   //マテリアルの生成
    var fall_flage = true;
 	 game.addBlock = function(x){
 		 var material = new Sprite(24, 24)
@@ -46,6 +46,7 @@ window.onload = function(){
 		 material.frame = 8;
 		 material.speed = 5;
   	 game.rootScene.addChild(material);	   
+			//マテリアルの定期処理
 			material.tick =0;
    		material.addEventListener(Event.ENTER_FRAME,function(){
       //左
@@ -66,9 +67,23 @@ window.onload = function(){
 		       material.frame = material.anim[material.tick % 4];
 		   }
 	   });
-  
+	   //シーンの定期処理
+	   game.tick = 16 * 120;
+	   game.rootScene.addEventListener(Event.ENTER_FRAME,function() {
+	        game.tick--;
+	        if (game.tick > 0) {
+	        //マテリアルの生成
+	        if ((game.tick % 10) === 0 ){
+	            var x = 155
+	            var speed = 6
+	            }
+	        label.text = "Time:" + Math.floor(game.tick / 16)  + "<BR>Score:" + game.score;
+          } else if (game.tick === 0) {
+            //ゲームオーバー画面の表示
+            game.end(game.score, "あなたのスコアは" + game.score);
+        }
    };
-  };
+  }
      //ゲーム開始
    game.start();
 };
