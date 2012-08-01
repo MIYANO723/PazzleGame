@@ -1,87 +1,65 @@
 ﻿enchant();
 window.onload = function(){
-	  var game = new Game(320,320);
-	  game.fps = 16;
-	  game.preload('puzzle.png','fire.png','Leftturn.png','Rightturn.png');
-	  game.score = 0;
-	  var material;
-	  game.onload = function(){
-	    var map;
-		   game.addLabel = function(text, color, x, y){
-		     //ラベルの生成
-		     var label = new Label(text);
-		     label.font  = "24px sans-serif";
-		     label.color = color;
-		     label.x     = x;
-		     label.y     = y;
-		     game.rootScene.addChild(label);
-		     }
-		   //ゲームシステム文のグループ化
-		   var gamesystem = new Group();
-		  //操作コンソールグループ化
-	     var gamecontrol = new Group();
-	     //背景の生成
-	     var bg = new Sprite(320, 320);
-	     bg.backgroundColor = "#87CEEB";
-     var image = new Surface(320,320);
-     for (var i = 0;i<320; i += 16) {
-        image.draw(game.assets["fire.png"], 7 * 16, 0, 16, 16, i, 320 - 16, 16, 16);
-     };
-      game.rootScene.addChild(bg);
-   //パッドの生成
-   var pad = new Pad();
-   pad.x   = 220;
-   pad.y   = 220;
-   game.rootScene.addChild(pad);
-   //マテリアルの生成
-   var fall_flage = true;
-	 game.addBlock = function(x){
-		 var material = new Sprite(24, 24);
-		 material.image = game.assets['puzzle.png'];
-		 material.x = x;
-		 material.y = -16;
-		 material.frame = 8;
-		 material.speed = 5;
-  	 game.rootScene.addChild(material);	   
-			//マテリアルの定期処理
-			material.tick =0;
-   		material.addEventListener(Event.ENTER_FRAME,function(){
-      //左
-	   if (game.input.left){
-	       material.x = 3;
-	       material.scaleX = -53;
-	   	}
-	    //右
-	   else if (game.input.right){
-	       material.x += 3;
-	       material.scaleX = 53;
-	   }
-		   //フレームの指定
-		   material.tick++;
-		   if (!game.input.left && !game.input.right) {
-		        material.frame = material.anim[0];
-		   } else {
-		       material.frame = material.anim[material.tick % 4];
-		   }
-	   });
-	   //シーンの定期処理
-	   game.tick = 16 * 120;
-	   game.rootScene.addEventListener(Event.ENTER_FRAME,function() {
-	        game.tick--;
-	        if (game.tick > 0) {
-	        //マテリアルの生成
-	        if ((game.tick % 10) === 0 ){
-	            var x = 155
-	            var speed = 6
-	            label.text = "Time:" + Math.floor(game.tick / 16)  + "<BR>Score:" + game.score;
-          } else if (game.tick === 0) {
-            //ゲームオーバー画面の表示
-            game.end(game.score, "あなたのスコアは" + game.score);
-        };
-   };
-  }
-     //ゲーム開始
-   game.start();
+	var game = new Game(320,320);
+	game.fps = 16;
+	game.preload('material.png','BG.png','fire.png','OUT.png','foolmaterial.png');
+	var num;
+	game.score = 0;
+	var material;
+	game.onload = function(){
+		//マップの生成
+		var map = new Map(24, 24);
+		map.x = 89;
+		map.y = 5;
+	  map.image = game.assets['material.png'];//5=空白
+    map.loadData([
+    		[1,2,0,0,5,1],
+    		[1,2,3,4,5,0],
+    		[0,0,0,0,3,0],
+    		[0,0,0,0,0,0],
+    		[0,0,0,0,0,0],
+    		[0,0,0,0,0,0],
+    		[0,0,0,0,0,0],
+    		[0,0,0,0,0,0],
+    		[0,0,1,1,0,0],
+    		[0,0,0,0,0,0],
+    		[0,0,0,0,0,0],
+    		[0,0,0,0,0,0],
+    		[0,0,0,0,0,0],
+    		]);
+    map._element.style.zIndex = 350;
+    game.rootScene.addChild(map);
+    
+    //ラベルの作成
+    var label = new Label("");
+    game.rootScene.addChild(label);
+    //危険マーク
+    out = new Sprite(48,24);
+    out.image = game.assets['OUT.png'];
+    out.x     = 136;
+    game.rootScene.addChild(out);
+    out._element.style.zIndex = 400;
+    //materialの生成
+    material = new Sprite(24,24);
+    material.image = game.assets['foolmaterial.png'];
+    material.x     = 160
+    material.y     = 90;
+    material.frame = num = Math.floor(Math.random() *5);
+    ;//※foolmaterialは0が赤material
+    material._element.style.zIndex = 900;
+    game.rootScene.addChild(material);
+    //背景画像の生成
+    var BG = new Sprite(320,320);
+    BG.image = game.assets['BG.png'];
+    BG.x     = 0;
+    BG.y     = 0;
+    BG.frame = 0;
+    game.rootScene.addChild(BG);
+    BG._element.style.zIndex = 0;
+    
+    //ゲーム開始
+    
+    
+  };
+game.start();
 };
-
-}
