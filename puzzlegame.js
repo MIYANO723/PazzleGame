@@ -1,4 +1,9 @@
-﻿enchant();
+﻿//方向指定
+var DIR_LEFT = 0;
+var DIR_RIGHT = 1;
+var DIR_UP   = 2;
+var DIR_DOWN = 3;
+enchant();
 window.onload = function(){
 	var game = new Game(320,320);
 	game.fps = 16;
@@ -8,8 +13,8 @@ window.onload = function(){
 	game.onload = function(){
 		//マップの生成
 		var map = new Map(23, 23);
-		map.x = 92;
-		map.y = 19;
+		map.x = 91;
+		map.y = -2;
 	  map.image = game.assets['material.png'];//6=空白
     map.loadData([
     	[5,5,5,5,5,5],
@@ -20,26 +25,28 @@ window.onload = function(){
     	[5,5,5,5,5,5],
     	[5,5,5,5,5,5],
     	[5,5,5,5,5,5],
-    	[1,2,3,4,0,1],
     	[5,5,5,5,5,5],
     	[5,5,5,5,5,5],
-    	[5,5,5,5,5,5],
-    	[5,5,4,5,5,5]
+    	[5,1,2,5,4,5],
+    	[1,2,3,5,3,4],
+    	[1,2,3,5,3,4],
+    	[1,2,3,5,3,4]
     ]);
     map.collisionData = [
     	[0,0,0,0,0,0],
     	[0,0,0,0,0,0],
     	[0,0,0,0,0,0],
     	[0,0,0,0,0,0],
-    	[0,0,0,0,0,0],
-    	[0,0,0,0,0,0],
-    	[0,0,0,0,0,0],
-    	[0,0,0,0,0,0],
-    	[1,2,3,4,0,1],
-    	[0,0,0,0,0,0],
-    	[0,0,0,0,0,0],
-    	[0,0,0,0,0,0],
-    	[0,0,1,0,0,0]
+    	[1,1,1,1,1,1],
+    	[1,1,1,1,1,1],
+    	[1,1,1,1,1,1],
+    	[1,1,1,1,1,1],
+    	[1,1,1,1,1,1],
+    	[1,1,1,1,1,1],
+    	[1,1,1,1,1,1],
+    	[1,1,1,1,1,1],
+    	[1,1,1,1,1,1],
+    	[0,0,1,1,0,0]
     ];
     map._element.style.zIndex = 350;
     game.rootScene.addChild(map);
@@ -52,39 +59,52 @@ window.onload = function(){
     out.image = game.assets['OUT.png'];
     out.x     = 136;
     game.rootScene.addChild(out);
-    out._element.style.zIndex = 400;
-
+    out._element.style.zIndex = 300;
+    
+    game.addentity = function(){
+    	var entity = new Entity();
+    	entity.widht = 320;
+    	entity.height= 320;
+    	entity.x     = 160;
+    	entity.y     = 160;
+    	entity.backgroundColor = "red";
+    	entity._element.style.zIndex = 10000;
+    	game.rootScene.addChild(entity);
+    	}
+      
 		//
 		game.addmaterial = function(){
 			var material = new Sprite(23, 23);
 			material.image = game.assets['material.png'];
 			material.x = 160 ;
-			material.y = 30;
+			material.y = 0;
 			material.frame = Math.floor(Math.random() *5);
-			material.speed = 2;
+			material.speed = 3;
+			material.DIR_DOWN;
 			material._element.style.zIndex = 900;
 			game.rootScene.addChild(material);
+			
+			
 			//定期処理
+			
 			material.addEventListener(Event.ENTER_FRAME, function(){
 				material.y += material.speed;
-				
-				
+				if (game.input.right){
+					material.x += 23;
+					};
+				if (game.input.left){
+					material.x -= 23;
+					}
+				if (game.input.up){
+					material.y =  0
+					}
+				if (game.input.down){
+					material.y +=  23
+					}
+					material._element.style.zIndex = 350
+				  
 			});
 		};
-
-
-    /*materialの生成
-    material = new Sprite(23,23);
-    material.image = game.assets['material.png'];
-    material.x     = 160;
-    material.y     = 30;
-    material.frame = num = Math.floor(Math.random() *5);
-        
-    //※foolmaterialは0が赤material
-		//material._element.style.zIndex = 900;
-    //game.rootScene.addChild(material);*/
-		
-    
     
     //背景画像の生成
     var BG = new Sprite(320,320);
@@ -100,7 +120,13 @@ window.onload = function(){
   	if(material_flag == true){
   		game.addmaterial();
   		material_flag = false;
+  	if(material_flag == false){
+  		game.addmaterial();
+  		
+  		
+  		}
   	}
   });
 	game.start();
+	
 };
